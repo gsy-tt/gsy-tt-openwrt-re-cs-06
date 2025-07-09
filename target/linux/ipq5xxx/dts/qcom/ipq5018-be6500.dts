@@ -1,0 +1,15 @@
+/dts-v1/;
+#include "ipq5018.dtsi"
+
+/ {
+    model = "RE-CS-06";
+    compatible = "qcom,ipq5018-be6500", "qcom,ipq5018";
+
+    aliases {
+        serial0 = &blsp1_uart1;
+    };
+
+    chosen {
+        bootargs = "console=ttyMSM0,115200 earlycon";
+    };
+};
