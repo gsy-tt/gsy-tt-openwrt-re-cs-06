@@ -1,0 +1,45 @@
+name: Build OpenWrt firmware for RE-CS-06
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y git gcc g++ make binutils bison flex libncurses5-dev zlib1g-dev gperf python3 unzip wget curl
+
+      - name: Initialize OpenWrt
+        run: |
+          git clone https://git.openwrt.org/openwrt/openwrt.git  openwrt
+          cd openwrt
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+      - name: Copy custom files
+        run: |
+          cp -r ../target openwrt/target
+          cp ../.config openwrt/.config
+
+      - name: Configure build
+        run: |
+          cd openwrt
+          make defconfig
+
+      - name: Start compilation
+        run: |
+          cd openwrt
+          make -j$(nproc) V=s
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v3
+        with:
+          name: openwrt-firmware
+          path: openwrt/bin/targets/*
