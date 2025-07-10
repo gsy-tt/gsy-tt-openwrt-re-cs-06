@@ -26,13 +26,13 @@ jobs:
 
       - name: Copy custom files
         run: |
-          cp -r ../target openwrt/target
-          cp ../.config openwrt/.config
+          cp -r target openwrt/target
+          cp .config openwrt/.config
 
-      - name: Configure build
-        run: |
-          cd openwrt
-          make defconfig
+      #- name: Configure build
+      #  run: |
+      #    cd openwrt
+      #    make defconfig
 
       - name: Start compilation
         run: |
