@@ -1,9 +1,10 @@
 name: Build OpenWrt firmware for RE-CS-06
 
+
 on:
   push:
-    branches: [ "master" ]
-
+    branches: [main]
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
